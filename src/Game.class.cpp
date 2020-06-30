@@ -11,6 +11,7 @@ Game::Game() {
   this->_gameOver = 0;
   this->_build_enemies();
 	this->_player = Player(this->_mapX / 2, this->_mapY - 2, 'A', 5, 5);
+  this->_message = Window();
   this->_playerBullets = new vector<Bullet*>;
   this->_enemyBullets = new vector<Bullet*>;
 };
@@ -19,6 +20,7 @@ Game::Game(int x, int y) : _mapX(x), _mapY(y) {
   this->_build_enemies();
   this->_gameOver = 0;
 	this->_player = Player(this->_mapX / 2, this->_mapY - 2, 'A', 5, 5);
+  this->_message = Window();
   this->_playerBullets = new vector<Bullet*>;
   this->_enemyBullets = new vector<Bullet*>;
 };
@@ -31,6 +33,7 @@ Game::Game(Game &other) {
   this->_enemyCurrent = other._enemyCurrent;
   this->_level = other._level;
   this->_player = other._player;
+  this->_message = other._message;
   this->_enemies = new Enemy[other._enemyCount];
   for (int i = 0; i < other._enemyCount; i++)
     this->_enemies[i] = other._enemies[i];
@@ -50,6 +53,7 @@ Game& Game::operator=(Game const &other) {
   this->_enemyCurrent = other._enemyCurrent;
   this->_level = other._level;
   this->_player = other._player;
+  this->_message = other._message;
   if (this->_enemies) 
     this->_destroy_enemies();
   this->_enemies = new Enemy[other._enemyCount];
@@ -285,6 +289,7 @@ void Game::input() {
 int  Game::check_end_game() {
   if (this->_player.get_hp() <= 0) {
     this->_gameOver = 1;
+    this->_message.pop_up(MESSAGE_GAME_OVER);
     return 1;
   }
   else if (!this->_enemyCurrent) {
@@ -294,8 +299,11 @@ int  Game::check_end_game() {
         //endgame
     // sleep for a sec or two and pop up a next menu story;
     this->_level.next_level();
+    this->_message.pop_up(this->_level.get_message());
+    clear();
     this->_destroy_enemies();
     this->_build_enemies();
+    this->spawn_player();
     return 0;
   }
   return 0;

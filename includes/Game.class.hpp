@@ -39,6 +39,7 @@ class Game {
     int _enemyCount;
     int _enemyCurrent;
 
+    Window  _message;
     Level   _level;
     Player  _player;
     Enemy   *_enemies;

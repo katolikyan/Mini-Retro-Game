@@ -9,6 +9,8 @@ HEADERS_DIR := ./includes/
 # source files
 SRC := main.cpp \
 			Bullet.class.cpp \
+			Window.class.cpp \
+			Menu.class.cpp \
       Object.class.cpp \
       Player.class.cpp \
 			Enemy.class.cpp \

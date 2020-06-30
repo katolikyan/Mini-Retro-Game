@@ -16,6 +16,7 @@ class Level {
     int   get_enemySpeed() const;
     int   get_enemyShape() const;
     int   get_enemyBulletFreq() const;
+    std::string get_message() const;
 
     void  next_level();
     void  level_checkout(int level);
@@ -28,6 +29,8 @@ class Level {
     int   _enemySpeed;
     int   _enemyShape;
     int   _enemyBulletFreq;
+    //Window _window;
+    std::string _message;
 };
 
 #endif
