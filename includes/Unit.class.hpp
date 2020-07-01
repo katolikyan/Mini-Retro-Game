@@ -20,7 +20,7 @@ class Unit : public Object {
     virtual void  shoot(void);
 
   private:
-    int _hp;
+    int   _hp;
 };
 
 #endif

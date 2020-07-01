@@ -66,19 +66,83 @@ Game& Game::operator=(Game const &other) {
   return *this;
 };
 
+int Game::run() {
+  int res;
+  int firstRun = 1;
+
+  // Sound = Sound for background
+  // system("afplay ./assets/flies-on-shit-3.wav &");
+  while(1) {
+    res = this->_menu.pop_menu();
+    if (res == 0) {
+      endwin();
+      // Sound = Delete / deallocate all sounds if needed;
+      // system("killall afplay");
+      return 0;
+    }
+    else if (res == 1) {
+      if (firstRun) {
+        this->_message.pop_up(this->_level.get_message());
+        firstRun = 0;
+      }
+      while (1) {
+        if(!this->_run_game()) {
+          if (this->_gameOver) {
+            this->_gameOver = 0;
+            this->_level.set_level(1);
+            this->_destroy_enemies();
+            this->_build_enemies();
+            this->_spawn_player();
+            this->_player.set_hp(10);
+            firstRun = 1;
+            clear();
+          }
+          break;
+        }
+      }
+    }
+  }
+};
+
+void  Game::_setup_curses() {
+  srand(time(NULL)); // random seed from clock
+	initscr();
+  cbreak();
+  noecho();
+  nodelay(stdscr, TRUE);
+  keypad(stdscr, TRUE); // allows to use arrows. 
+  curs_set(0); // invisible cursor
+};
+    
+int Game::_run_game() {
+  this->_player.display();
+  this->_move_enemies();
+  this->_draw_enemies();
+  this->_shoot_enemies();
+  this->_update_bullets();
+  this->_check_collisions();
+  this->_draw_info();
+  if (this->_input())
+    return 0;
+  if (this->_check_end_game())
+    return 0;
+  refresh();
+	return 1;
+};
+
 void  Game::_build_enemies() {
   this->_enemyCount = this->_level.get_enemyCount(); // level count
   this->_enemyCurrent = this->_level.get_enemyCount(); // level count
   this->_enemies = new Enemy[this->_level.get_enemyCount()]; // level count
   for (int i = 0; i < this->_enemyCount; i++) {
-    this->_enemies[i].set_xy(rand() % this->_mapX + 1, rand() % (this->_mapY - 15) + 1);
+    this->_enemies[i].set_xy(\
+        rand() % this->_mapX + 1, rand() % (this->_mapY - 15) + 1);
     this->_enemies[i].set_shape(this->_level.get_enemyShape()); // level shape
   }
 };
 
 void  Game::_destroy_enemies() {
   delete [] this->_enemies;
-
   // delete bullets;
   for (unsigned long i = 0; i < this->_playerBullets->size(); i++) {
       delete (*this->_playerBullets)[i];
@@ -90,22 +154,55 @@ void  Game::_destroy_enemies() {
     }
 };
 
-void  Game::spawn_player() {
+void  Game::_spawn_player() {
   this->_player.set_xy(this->_mapX / 2, this->_mapY - 2);
 };
 
-void  Game::draw_enemies() {
+void  Game::_draw_enemies() {
   for (int i = 0; i < this->_enemyCount; i++)
     if (this->_enemies[i].is_alive())
       this->_enemies[i].display();
 };
 
-void  Game::move_enemies() {
+void  Game::_draw_info() {
+	box(stdscr, 0, 0);
+	mvprintw(0, this->_mapX / 2 - 6, "| LEVEL %d |", this->_level.get_level());
+  mvprintw(this->_mapY - 1, 10, "| Ammo: %d / %d |", \
+      this->_player.get_ammo(), this->_player.get_ammoMax());
+  mvprintw(this->_mapY - 1, 30, "| HP: %d |", this->_player.get_hp());
+};
+
+void Game::_init_player_bullet() {
+  if (this->_player.get_ammo()) {
+    // Sound = Sound for player shooting;
+    // system("afplay ./assets/Laser2.wav &");
+    this->_playerBullets->push_back(\
+        new Bullet(this->_player.get_x(), this->_player.get_y(), '!'));
+  }
+};
+
+void  Game::_init_enemy_bullet(int x, int y) {
+  this->_enemyBullets->push_back(new Bullet(x, y, 'o'));
+};
+
+void  Game::_shoot_enemies() {
+  for (int i = 0; i < this->_enemyCount; i++) {
+    if (this->_enemies[i].is_alive()) {
+      if ((rand() % 1000000) > this->_level.get_enemyBulletFreq()) {
+        // Sound = Sound for enemy shooting;
+        // system("afplay ./assets/LaserEnemy2.wav &");
+        this->_init_enemy_bullet(\
+            this->_enemies[i].get_x(), this->_enemies[i].get_y());
+      }
+    }
+  }
+};
+
+void  Game::_move_enemies() {
   int move_to;
   
   for (int i = 0; i < this->_enemyCount; i++) {
-    //chance to move;
-    if ((rand() % 100000) < this->_level.get_enemySpeed()) // Enemy move Frequency;
+    if ((rand() % 100000) < this->_level.get_enemySpeed()) // Chance to move;
       continue;
 
     move_to = rand() % 5;
@@ -131,91 +228,7 @@ void  Game::move_enemies() {
   }
 };
 
-void  Game::shoot_enemies() {
-  for (int i = 0; i < this->_enemyCount; i++) {
-    if (this->_enemies[i].is_alive()) {
-      if ((rand() % 1000000) > this->_level.get_enemyBulletFreq()) {
-        //system("afplay ./assets/LaserEnemy2.wav &");
-        this->init_enemy_bullet(this->_enemies[i].get_x(), this->_enemies[i].get_y());
-      }
-    }
-  }
-};
-
-void  Game::init_enemy_bullet(int x, int y) {
-  this->_enemyBullets->push_back(new Bullet(x, y, 'o'));
-};
-    
-int Game::run() {
-  int res;
-  int firstRun = 1;
-
-  //system("afplay ./assets/flies-on-shit-3.wav &");
-  while(1) {
-    res = this->_menu.pop_menu();
-    if (res == 0) {
-      endwin();
-      system("killall afplay");
-      return 0;
-    }
-    else if (res == 1) {
-      if (firstRun) {
-        this->_message.pop_up(this->_level.get_message());
-        firstRun = 0;
-      }
-      while (1) {
-        if(!this->run_game()) {
-          if (this->_gameOver) {
-            this->_gameOver = 0;
-            this->_level.set_level(1);
-            this->_destroy_enemies();
-            this->_build_enemies();
-            this->spawn_player();
-            this->_player.set_hp(10);
-            firstRun = 1;
-            clear();
-          }
-          break;
-        }
-      }
-    }
-  }
-};
-
-int Game::run_game() {
-  this->_player.display();
-  this->move_enemies();
-  this->draw_enemies();
-  this->shoot_enemies();
-  this->update_bullets();
-  this->check_collisions();
-  this->draw_info();
-  if (this->input())
-    return 0;
-  if (this->check_end_game())
-    return 0;
-  refresh();
-	return 1;
-};
-
-void  Game::draw_info() {
-	box(stdscr, 0, 0);
-	mvprintw(0, this->_mapX / 2 - 6, "| LEVEL %d |", this->_level.get_level());
-  mvprintw(this->_mapY - 1, 10, "| Ammo: %d / %d |", this->_player.get_ammo(), this->_player.get_ammoMax());
-  mvprintw(this->_mapY - 1, 30, "| HP: %d |", this->_player.get_hp());
-  //mvprintw(this->_mapY - 1, 50, "| LVL: %d |-| ENEMY COUNT: %d |", \
-  //    this->_level.get_level(), this->_level.get_enemyCount());
-};
-
-void Game::init_player_bullet() {
-  if (this->_player.get_ammo()) {
-    //system("afplay ./assets/Laser2.wav &");
-    this->_playerBullets->push_back(\
-        new Bullet(this->_player.get_x(), this->_player.get_y(), '!'));
-  }
-}
-
-void Game::update_bullets() {
+void Game::_update_bullets() {
   // player bullets;
   for (unsigned long i = 0; i < this->_playerBullets->size(); i++)
     if ((clock() - (*this->_playerBullets)[i]->get_time()) > 30000) {
@@ -234,7 +247,7 @@ void Game::update_bullets() {
     }
 };
 
-void  Game::check_collisions() {
+void  Game::_check_collisions() {
   // players bullet collisions;
   for (unsigned long i = 0; i < this->_playerBullets->size(); i++) {
     // out of border;
@@ -254,15 +267,15 @@ void  Game::check_collisions() {
         delete (*this->_playerBullets)[i];
         this->_playerBullets->erase(this->_playerBullets->begin() + i);
         // make dead;
-        //system("afplay ./assets/Explosion3.wav &");
         this->_enemies[k].clear_shape();
         this->_enemies[k].make_dead();
         this->_enemyCurrent -= 1;
+        // Sound = Sound of destroying enemy;
+        // system("afplay ./assets/Explosion3.wav &");
         break;
       }
     }  
   }
-
   // enemy bullet collisions:
   for (unsigned long i = 0; i < this->_enemyBullets->size(); i++) {
     // out of border;
@@ -273,31 +286,57 @@ void  Game::check_collisions() {
       continue;
     }
     // hit the hero;
-    if ((*this->_enemyBullets)[i]->have_collision(this->_player.get_x(), this->_player.get_y())) {
+    if ((*this->_enemyBullets)[i]->have_collision(\
+          this->_player.get_x(), this->_player.get_y())) {
       // erase bullet;
       (*this->_enemyBullets)[i]->clear_shape();
       delete (*this->_enemyBullets)[i];
       this->_enemyBullets->erase(this->_enemyBullets->begin() + i);
       // lose hp
       this->_player.lose_hp(1);
-      this->spawn_player();
-      system("afplay ./assets/Explosion3.wav &");
+      this->_spawn_player();
+      // Sound = Sound of destroyed player;
+      // system("afplay ./assets/Explosion3.wav &");
     }
   }
-  
   // collision player with enemy:
   for (int i = 0; i < this->_enemyCount; i++) {
     if (this->_enemies[i].is_alive() && \
         this->_enemies[i].have_collision( \
           this->_player.get_x(), this->_player.get_y())) {
       this->_player.lose_hp(1);
-      this->spawn_player();
-      system("afplay ./assets/Explosion3.wav &");
+      this->_spawn_player();
+      // Sound = Sound of destroyed player;
+      // system("afplay ./assets/Explosion3.wav &");
     }
   }  
 };
 
-int Game::input() {
+int  Game::_check_end_game() {
+  if (this->_player.get_hp() <= 0) {
+    this->_gameOver = 1;
+    this->_message.pop_up(MESSAGE_GAME_OVER);
+    return 1;
+  }
+  else if (!this->_enemyCurrent && this->_level.get_level() == 5) {
+    this->_gameOver = 1;
+    this->_message.pop_up(MESSAGE_WIN_GAME);
+    this->_message.pop_up(MESSAGE_WIN_GAME_2);
+    return 1;
+  }
+  else if (!this->_enemyCurrent) {
+    this->_level.next_level();
+    this->_message.pop_up(this->_level.get_message());
+    clear();
+    this->_destroy_enemies();
+    this->_build_enemies();
+    this->_spawn_player();
+    return 0;
+  }
+  return 0;
+};
+
+int Game::_input() {
   int key = getch();
 
   switch(key) {
@@ -325,7 +364,7 @@ int Game::input() {
       this->_player.reload();
       break;
     case ' ':
-      this->init_player_bullet();
+      this->_init_player_bullet();
       this->_player.shoot();
       break;
     case 'q':
@@ -336,38 +375,4 @@ int Game::input() {
       break;
   }
   return 0;
-};
-
-int  Game::check_end_game() {
-  if (this->_player.get_hp() <= 0) {
-    this->_gameOver = 1;
-    this->_message.pop_up(MESSAGE_GAME_OVER);
-    return 1;
-  }
-  else if (!this->_enemyCurrent && this->_level.get_level() == 5) {
-    this->_gameOver = 1;
-    this->_message.pop_up(MESSAGE_WIN_GAME);
-    this->_message.pop_up(MESSAGE_WIN_GAME_2);
-    return 1;
-  }
-  else if (!this->_enemyCurrent) {
-    this->_level.next_level();
-    this->_message.pop_up(this->_level.get_message());
-    clear();
-    this->_destroy_enemies();
-    this->_build_enemies();
-    this->spawn_player();
-    return 0;
-  }
-  return 0;
-};
-
-void  Game::_setup_curses() {
-  srand(time(NULL)); // random seed from clock
-	initscr();
-  cbreak();
-  noecho();
-  nodelay(stdscr, TRUE);
-  keypad(stdscr, TRUE); // allows to use arrows. 
-  curs_set(0); // invisible cursor
 };

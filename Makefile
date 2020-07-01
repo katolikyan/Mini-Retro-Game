@@ -23,7 +23,8 @@ OBJ := $(addprefix $(OBJ_DIR), $(SRC:.cpp=.o))
 # compilation
 CC := clang++ 
 FLAGS := -Wall -Wextra -Werror -std=c++11
-FLAGS += -g -fsanitize=address
+# FLAGS += -g -fsanitize=address
+FLAGS += -O3
 HEADERS := -I $(HEADERS_DIR)
 LIBS := -lncurses
 

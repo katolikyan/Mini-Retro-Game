@@ -29,7 +29,7 @@
                             " ENTER to continue"
 
 #define MESSAGE_LVL_1       " The 2020 is weird isn't it?\n"\
-                            " And this bugs, they became more dangerous?\n"\
+                            " And those bugs, they became more dangerous?\n"\
                             " I don't like bugs but this ones - I hate them!\n"\
                             " This summer is going to be annoying for real.\n"\
                             " Let's warm up a little bit and try to kill them.\n\n"\
@@ -64,6 +64,7 @@
                             " Wait, WHAT? THE BUGS HAVE MUTATED!\n"\
                             " THEY ARE INVISIBLE!!1!1...\n"\
                             " NOOOOOOOOOOOOOOOOOOOOOOOOOOO\n\n"\
+                            " PS: I believe there are 15 of them..\n\n"\
                             " ENTER to continue"
 
 #define MESSAGE_GAME_OVER   " GAME OVER\n\n"\
@@ -80,7 +81,7 @@
 #define MESSAGE_WIN_GAME_2 " Strange times, COWEED-19, technological disasters,\n"\
                            " Trump's second term, those bugs, damn..\n\n"\
                            " Hope you enjoyed this little weekend project! :)\n"\
-                           " Stay safe! Do Love! Good luck! :) \n\n"\
+                           " Stay safe! Make Love! Good luck! :) \n\n"\
                            " I am always happy to hear just a Hi from you! So...\n"\
                            " tigrankatolikyan@gmail.com\n\n"\
                            " ENTER to continue"

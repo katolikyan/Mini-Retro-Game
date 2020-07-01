@@ -65,11 +65,12 @@ void	Object::move_down(int maxcord) {
     this->_y += 1;
 };
 
-int		Object::have_collision(int x, int y) const {
-  if (this->_x == x && this->_y == y) {
-    return 1;
-  }
-  return 0;
+void Object::display() {
+  mvaddch(this->_y, this->_x, this->_shape);
+};
+
+void Object::clear_shape() {
+  mvaddch(this->_y, this->_x, ' ');
 };
 
 int   Object::out_of_borders(int maxX, int maxY) const {
@@ -79,16 +80,16 @@ int   Object::out_of_borders(int maxX, int maxY) const {
   return 0;
 };
 
+int		Object::have_collision(int x, int y) const {
+  if (this->_x == x && this->_y == y) {
+    return 1;
+  }
+  return 0;
+};
+
+
 int		Object::is_alive() const {
   return (this->_alive ? 1 : 0);
-};
-
-void Object::display() {
-  mvaddch(this->_y, this->_x, this->_shape);
-};
-
-void Object::clear_shape() {
-  mvaddch(this->_y, this->_x, ' ');
 };
 
 void Object::make_dead() {

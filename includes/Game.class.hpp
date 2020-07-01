@@ -13,34 +13,30 @@ class Game {
     virtual ~Game(void);
     Game& operator=(Game const &other);
 
-    void	spawn_player(void);
-    void	draw_enemies(void);
-    void	move_enemies(void);
-    void  shoot_enemies(void);
     int   run(void);
-    int   run_game(void);
-    //int   run_menu(void);
-    void  draw_info(void);
-    int   input(void);
-    void  init_player_bullet(void);
-    void  init_enemy_bullet(int x, int y);
-    int   check_end_game();
-    void  update_bullets(void);
-    void  check_collisions(void);
 
   private:
-    // functions;
     void  _setup_curses(void);
-    void  _destroy_enemies(void);
+    int   _run_game(void);
     void  _build_enemies(void);
+    void  _destroy_enemies(void);
+    void	_spawn_player(void);
+    void	_draw_enemies(void);
+    void  _draw_info(void);
+    void  _init_player_bullet(void);
+    void  _init_enemy_bullet(int x, int y);
+    void  _shoot_enemies(void);
+    void	_move_enemies(void);
+    void  _update_bullets(void);
+    void  _check_collisions(void);
+    int   _check_end_game();
+    int   _input(void);
 
-    // properties;
-    int _mapX;
-    int _mapY;
-    int _gameOver;
-    int _enemyCount;
-    int _enemyCurrent;
-
+    int   _mapX;
+    int   _mapY;
+    int   _gameOver;
+    int   _enemyCount;
+    int   _enemyCurrent;
     Menu    _menu;
     Window  _message;
     Level   _level;

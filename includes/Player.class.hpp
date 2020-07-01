@@ -17,6 +17,7 @@ class Player : public Unit {
 
     int   get_ammo(void) const;
     int   get_ammoMax(void) const;
+    
     void  set_ammoMax(int newMax);
 
     void  shoot(void) override;
@@ -25,8 +26,8 @@ class Player : public Unit {
 
 
   private:
-    int _ammoMax;
-    int _ammo;
+    int   _ammoMax;
+    int   _ammo;
 };
 
 #endif

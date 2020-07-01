@@ -75,23 +75,22 @@ void  Level::_level_setup(int level) {
       this->_enemyShape = 'U';
       this->_enemyBulletFreq = 999990;
       this->_message = MESSAGE_LVL_1;
-      //this->_window.popup_text(this->_message);
       break;
-    case 2: // 42 evemies
+    case 2: // 42 enemies
       this->_enemyCount = 42; //42
       this->_enemySpeed = 99980;
       this->_enemyShape = 'V';
       this->_enemyBulletFreq = 999990;
       this->_message = MESSAGE_LVL_2;
       break;
-    case 3: // fast bombardiring
+    case 3: // Heavy Rain
       this->_enemyCount = 15; //15
       this->_enemySpeed = 99990;
       this->_enemyShape = 'M';
       this->_enemyBulletFreq = 999900;
       this->_message = MESSAGE_LVL_3;
       break;
-    case 4: // 42 swarm
+    case 4: // I am the swarm
       this->_enemyCount = 42; //42
       this->_enemySpeed = 95000;
       this->_enemyShape = 'W';

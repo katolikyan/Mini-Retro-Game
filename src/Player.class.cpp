@@ -35,10 +35,16 @@ Player& Player::operator=(Player const &other) {
   return *this;
 };
 
-int   Player::have_ammo() {
-  if (this->_ammo > 0)
-    return 1;
-  return 0;
+int   Player::get_ammo() const {
+  return this->_ammo;
+};
+
+int   Player::get_ammoMax() const {
+  return this->_ammoMax;
+};
+
+void  Player::set_ammoMax(int newMax) {
+  this->_ammoMax = newMax;
 };
 
 void  Player::shoot() {
@@ -50,14 +56,8 @@ void  Player::reload() {
   this->_ammo = this->_ammoMax;
 };
 
-int   Player::get_ammo() const {
-  return this->_ammo;
-};
-
-int   Player::get_ammoMax() const {
-  return this->_ammoMax;
-};
-
-void  Player::set_ammoMax(int newMax) {
-  this->_ammoMax = newMax;
+int   Player::have_ammo() {
+  if (this->_ammo > 0)
+    return 1;
+  return 0;
 };

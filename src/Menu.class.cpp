@@ -1,12 +1,10 @@
 #include "retro.game.hpp"
 
 Menu::Menu() : Window() {
-//  this->_optionMessage = Window();
 };
 
 Menu::Menu(int height, int width, int startY, int startX) : \
     Window(height, width, startY, startX) {
-//  this->_optionMessage = Window();
 };
 
 Menu::Menu(Menu &other) {
@@ -16,7 +14,6 @@ Menu::Menu(Menu &other) {
   this->_startY = other._startY;
   this->_width = other._width;
   this->_height = other._height;
-//  this->_optionMessage = other._optionMessage;
   if (this->_win)
     this->_win = dupwin(other._win);
 };
@@ -33,7 +30,6 @@ Menu& Menu::operator=(Menu const &other) {
   this->_startY = other._startY;
   this->_width = other._width;
   this->_height = other._height;
-//  this->_optionMessage = other._optionMessage;
   if (this->_win)
     this->_win = dupwin(other._win);
   return *this;
@@ -50,8 +46,6 @@ int  Menu::pop_menu() {
   keypad(this->_win, TRUE);
   refresh();
 
-  //mvwprintw(this->_win, 1, 0, "MENU");
-
   while(1) {
     for (int i = 0; i < 4; i++) {
       if (i == highlight)
@@ -66,7 +60,8 @@ int  Menu::pop_menu() {
     switch (key) {
       case 10:
       case 13:
-        //system("afplay ./assets/Choose.wav &");
+        // Sound = Sound of choosing an option
+        // system("afplay ./assets/Choose.wav &");
         if (highlight == 0) {
           delwin(this->_win);
           return 1;
@@ -80,13 +75,15 @@ int  Menu::pop_menu() {
         break;
       case KEY_DOWN:
       case 's':
-        system("afplay ./assets/Select.wav &");
+        // Sound = Sound of moving cursor
+        // system("afplay ./assets/Select.wav &");
         if (highlight < 3)
           highlight += 1;
         break;
       case KEY_UP:
       case 'w':
-        system("afplay ./assets/Select.wav &");
+        // Sound = Sound of moving cursor
+        // system("afplay ./assets/Select.wav &");
         if (highlight > 0)
           highlight -= 1;
         break;
