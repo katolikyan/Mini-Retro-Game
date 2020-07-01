@@ -1,9 +1,13 @@
 #include "retro.game.hpp"
 
-Menu::Menu() : Window() {};
+Menu::Menu() : Window() {
+//  this->_optionMessage = Window();
+};
 
 Menu::Menu(int height, int width, int startY, int startX) : \
-    Window(height, width, startY, startX) {};
+    Window(height, width, startY, startX) {
+//  this->_optionMessage = Window();
+};
 
 Menu::Menu(Menu &other) {
   this->_xMax = other._xMax;
@@ -12,6 +16,7 @@ Menu::Menu(Menu &other) {
   this->_startY = other._startY;
   this->_width = other._width;
   this->_height = other._height;
+//  this->_optionMessage = other._optionMessage;
   if (this->_win)
     this->_win = dupwin(other._win);
 };
@@ -28,18 +33,21 @@ Menu& Menu::operator=(Menu const &other) {
   this->_startY = other._startY;
   this->_width = other._width;
   this->_height = other._height;
+//  this->_optionMessage = other._optionMessage;
   if (this->_win)
     this->_win = dupwin(other._win);
   return *this;
 };
 
 int  Menu::pop_menu() {
+  Window _optionMessage;
   int key;
   int highlight = 0;
   std::string choises[4] = {MENU_OPTION_1, MENU_OPTION_2, MENU_OPTION_3, MENU_OPTION_4};
   std::string messages[4] = {MENU_MESSAGE_1, MENU_MESSAGE_2, MENU_MESSAGE_3, MENU_MESSAGE_4};
 
   this->_win = newwin(this->_height, this->_width, this->_startY, this->_startX);
+  keypad(this->_win, TRUE);
   refresh();
 
   //mvwprintw(this->_win, 1, 0, "MENU");
@@ -58,24 +66,27 @@ int  Menu::pop_menu() {
     switch (key) {
       case 10:
       case 13:
+        //system("afplay ./assets/Choose.wav &");
         if (highlight == 0) {
           delwin(this->_win);
           return 1;
         }
         else if (highlight == 3) {
-          this->_optionMessage.pop_up(messages[highlight]);
+          _optionMessage.pop_up(messages[highlight]);
           return 0;
         }
         else 
-          this->_optionMessage.pop_up(messages[highlight]);
+          _optionMessage.pop_up(messages[highlight]);
         break;
       case KEY_DOWN:
       case 's':
-        if (highlight < 4)
+        system("afplay ./assets/Select.wav &");
+        if (highlight < 3)
           highlight += 1;
         break;
       case KEY_UP:
       case 'w':
+        system("afplay ./assets/Select.wav &");
         if (highlight > 0)
           highlight -= 1;
         break;

@@ -50,19 +50,27 @@ std::string Level::get_message() const {
   return this->_message;
 };
 
+void  Level::set_level(int level) {
+  if (level > 0 && level <= 5) {
+    this->_crntLevel = level;
+    this->_level_setup(level);
+  }
+};
+
 void  Level::next_level() {
   this->_crntLevel += 1;
   this->_level_setup(this->_crntLevel);
 };
 
 void  Level::level_checkout(int level) {
-  this->_level_setup(level);
+  if (level > 0 && level <= 5)
+    this->_level_setup(level);
 };
 
 void  Level::_level_setup(int level) {
   switch (level) {
     case 1: // First level;
-      this->_enemyCount = 1;
+      this->_enemyCount = 10; // 10
       this->_enemySpeed = 99995;
       this->_enemyShape = 'U';
       this->_enemyBulletFreq = 999990;
@@ -70,28 +78,28 @@ void  Level::_level_setup(int level) {
       //this->_window.popup_text(this->_message);
       break;
     case 2: // 42 evemies
-      this->_enemyCount = 42;
+      this->_enemyCount = 42; //42
       this->_enemySpeed = 99980;
       this->_enemyShape = 'V';
       this->_enemyBulletFreq = 999990;
       this->_message = MESSAGE_LVL_2;
       break;
     case 3: // fast bombardiring
-      this->_enemyCount = 15;
+      this->_enemyCount = 15; //15
       this->_enemySpeed = 99990;
       this->_enemyShape = 'M';
       this->_enemyBulletFreq = 999900;
       this->_message = MESSAGE_LVL_3;
       break;
     case 4: // 42 swarm
-      this->_enemyCount = 42;
+      this->_enemyCount = 42; //42
       this->_enemySpeed = 95000;
       this->_enemyShape = 'W';
       this->_enemyBulletFreq = 999995;
       this->_message = MESSAGE_LVL_4;
       break;
     case 5: // invisible
-      this->_enemyCount = 15;
+      this->_enemyCount = 15; //15
       this->_enemySpeed = 99900;
       this->_enemyShape = ' ';
       this->_enemyBulletFreq = 999980;

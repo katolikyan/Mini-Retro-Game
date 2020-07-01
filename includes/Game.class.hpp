@@ -18,8 +18,10 @@ class Game {
     void	move_enemies(void);
     void  shoot_enemies(void);
     int   run(void);
+    int   run_game(void);
+    //int   run_menu(void);
     void  draw_info(void);
-    void  input(void);
+    int   input(void);
     void  init_player_bullet(void);
     void  init_enemy_bullet(int x, int y);
     int   check_end_game();
@@ -39,6 +41,7 @@ class Game {
     int _enemyCount;
     int _enemyCurrent;
 
+    Menu    _menu;
     Window  _message;
     Level   _level;
     Player  _player;

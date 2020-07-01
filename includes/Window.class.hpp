@@ -18,6 +18,7 @@ class Window {
 
     virtual void  pop_up(string text);
     void  resize_win(int height, int width, int startY, int startX);
+    WINDOW* get_window(void) const;
 
   protected:
     int _height;

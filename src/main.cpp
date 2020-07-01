@@ -1,7 +1,5 @@
 #include "retro.game.hpp"
 
-using namespace std;
-
 /*
 ** Example of run with outside curses setup;
 **
@@ -38,13 +36,23 @@ using namespace std;
 int	main(void) {
   Game *game = new Game();
 
-  while(1)
-    if (!game->run())
-    {
-      clear();
-      endwin();
-      delete game;
-      return (0);
-    }
+  if (!game->run()) {
+    delete game;
+    return (0);
+  }
+  delete game;
   return (1);
 }
+
+//
+//int	main(void) {
+//  Game *game = new Game();
+//
+//  if (game->run()) {
+//    delete game;
+//    return 1;
+//  }
+//
+//  delete game;
+//  return 0;
+//};

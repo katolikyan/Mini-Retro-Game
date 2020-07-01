@@ -70,9 +70,12 @@ void  Window::pop_up(string text) {
 //        _xMax, _yMax, _height, _width, _startX, _startY) ;
   wrefresh(this->_win);
 
+  system("afplay ./assets/Select.wav &");
   while(1) {
     key = wgetch(this->_win);
     if (key == 10 || key == 13) {
+      wclear(this->_win);
+      wrefresh(this->_win);
       delwin(this->_win);
       break;
     }
@@ -84,4 +87,8 @@ void  Window::resize_win(int height, int width, int startY, int startX) {
   this->_width = width;
   this->_startY = startY;
   this->_startX = startX;
+};
+
+WINDOW* Window::get_window() const {
+  return this->_win;
 };

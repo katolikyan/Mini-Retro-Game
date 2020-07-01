@@ -11,14 +11,15 @@ class Level {
     ~Level(void);
     Level& operator=(Level const &other);
 
-    int   get_level() const;
-    int   get_enemyCount() const; 
-    int   get_enemySpeed() const;
-    int   get_enemyShape() const;
-    int   get_enemyBulletFreq() const;
-    std::string get_message() const;
+    int   get_level(void) const;
+    int   get_enemyCount(void) const; 
+    int   get_enemySpeed(void) const;
+    int   get_enemyShape(void) const;
+    int   get_enemyBulletFreq(void) const;
+    std::string get_message(void) const;
+    void  set_level(int level);
 
-    void  next_level();
+    void  next_level(void);
     void  level_checkout(int level);
 
   private:
@@ -29,7 +30,6 @@ class Level {
     int   _enemySpeed;
     int   _enemyShape;
     int   _enemyBulletFreq;
-    //Window _window;
     std::string _message;
 };
 

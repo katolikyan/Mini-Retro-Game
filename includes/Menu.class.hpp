@@ -13,7 +13,6 @@ class Menu : Window {
     int pop_menu(void);
 
   private:
-    Window _optionMessage;
 
 };
 
