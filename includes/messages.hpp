@@ -17,20 +17,21 @@
                             " No joke, the only way to restart - to die :)\n\n"\
                             " ENTER to continue"
 
-#define MENU_MESSAGE_3      " Tigran Katolikyan\n\n"\
+#define MENU_MESSAGE_3      " Hi, my name is Tigran Katolikyan.\n"\
+                            " I am just at the beginning of my journey, so\n"\
+                            " don't hesitate to just say Hi, it will make my day! :)\n\n"\
                             " tigrankatolikyan@gmail.com\n"\
                             " https://www.linkedin.com/in/katolikyan/\n"\
                             " https://github.com/katolikyan\n"\
                             " https://twitter.com/katolikyan_cs\n\n"\
-                            " Don't hesitate to just say Hi :)\n\n"\
                             " ENTER to continue"
 
-#define MENU_MESSAGE_4      " Bye-Bye. Thank you for checking out this thing :)\n\n"\
+#define MENU_MESSAGE_4      " Thank you for checking out this thing!\n Bye-Bye! :)\n\n"\
                             " ENTER to continue"
 
 #define MESSAGE_LVL_1       " The 2020 is weird isn't it?\n"\
                             " And those bugs, they became more dangerous?\n"\
-                            " I don't like bugs but this ones - I hate them!\n"\
+                            " I don't like bugs but these ones - I hate them!\n"\
                             " This summer is going to be annoying for real.\n"\
                             " Let's warm up a little bit and try to kill them.\n\n"\
                             " ENTER to continue"
@@ -44,7 +45,7 @@
 #define MESSAGE_LVL_3       " We got them, but...\n"\
                             " They have left some larvae on the walls.\n"\
                             " They are barely can move, but they can shoot\n"\
-                            " So be careful, try to not die!\n\n"\
+                            " So be careful, try not to die!\n\n"\
                             " PS: Don't try to calculate shoot timings\n\n"\
                             " ENTER to continue"
 

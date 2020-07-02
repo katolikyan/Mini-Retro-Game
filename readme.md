@@ -18,6 +18,16 @@ $> ./ft_retro
 Try to run it in different form factors of the terminal, different color schemes.
 
 ![](./media/ft_retro_demo1.gif)
-![](./media/ft_retro_demo2.gif)
+---
+### Spoilers:
+
+Level 1                    |  Level 2                  | Level 3                   |  Level 4                  | Level 5                   
+:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
+![](./media/ft_retro_lvl1.gif)  |  ![](./media/ft_retro_lvl2.gif)  |  ![](./media/ft_retro_lvl3.gif)  |  ![](./media/ft_retro_lvl4.gif)  |  ![](./media/ft_retro_lvl5.gif)
+
+#### To Do:
+- [ ] Multiple key input
+- [ ] Sounds
+- [ ] Dynamic window scale
 
 Thank you!
